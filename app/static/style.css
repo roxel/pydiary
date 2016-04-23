@@ -1,0 +1,89 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+.container {
+  width: auto;
+  max-width: 720px;
+  padding: 0 15px;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+  font-family: 'Lora', serif;
+}
+
+img {
+    max-width: 100%;
+}
+
+.primary_button {
+    margin-top: 20px;
+}
+
+/*
+ * Nav
+ *
+ */
+
+@media (min-width: 979px) {
+  ul.nav li.dropdown:hover > ul.dropdown-menu {
+    display: block;
+  }
+}
+
+ul.nav {
+  text-transport: uppercase;
+  color: red;
+}
+
+.navbar {
+    font-family: 'Kaushan Script', cursive;
+    background: #fff;
+}
+
+
+/*
+ * Content
+ *
+ */
+
+#content p {
+  font-family: 'Lora', serif;
+  font-weight: 400;
+  font-size: 1.25em;
+  line-height: 1.6em;
+}
+
+#content h1 {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/*
+ * Footer
+ *
+ */
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 30px;
+  font-weight: 300;
+}
+
+.footer_admin {
+  height: 30px;
+  color: #455769;
+}
+
+.footer_admin p {
+  margin: 5px 0;
+  text-align: center;
+}
