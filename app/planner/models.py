@@ -2,6 +2,7 @@ from app.database import Base
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, Date
 from datetime import datetime
 
+
 class Task(Base):
     __tablename__ = 'tasks'
     id = Column(Integer, primary_key=True)
@@ -11,7 +12,7 @@ class Task(Base):
     priority = Column(Integer)
     date_created = Column(DateTime)
 
-    def __init__(self, name, date, priority=1):
+    def __init__(self, name, date, priority=0):
         self.name = name
         self.date = date
         self.done = False
