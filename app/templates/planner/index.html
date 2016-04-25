@@ -1,4 +1,23 @@
 {% extends "layout/base.html" %}
 {% block title %}Planner{% endblock %}
 
-{% block content %} This is planner page {% endblock %}
+{% block content %}
+    <h1>Tasks</h1>
+    <p>This is planner page</p>
+    <ul>
+    {% if tasks %}
+            {% for t in tasks %}
+                {% if t.priority==1 %}
+                <li><strong>{{ t.name }}</strong> ({{ t.date }})</li>
+                {% elif t.priority==-1 %}
+                <li>{{ t.name }}  ({{ t.date }})</li>
+                {% else %}
+                <li><strong><em>{{ t.name }}</em></strong> ({{ t.date }})</li>
+                {% endif %}
+            {% endfor %}
+    {% else %}
+            <li>no tasks to show</li>
+    {% endif %}
+    </ul>
+    <a class="btn btn-default" href="{{ url_for('planner.add_task') }}" role="button">Add task</a>
+{% endblock %}

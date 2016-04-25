@@ -143,6 +143,7 @@ docs/_build/
 target/
 
 #Ipython Notebook
+/sqlite.db
 .ipynb_checkpoints
 
 

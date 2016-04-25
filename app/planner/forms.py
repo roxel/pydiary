@@ -2,7 +2,10 @@ from wtforms import Form, StringField, DateField, RadioField, validators
 
 
 class TaskForm(Form):
-    name = StringField([validators.InputRequired()])
-    date = DateField([validators.Length(min=0, max=100), validators.InputRequired()])
-    priority = RadioField(choices=[('unimportant', 'standard', 'important'), (-1, 0, 1)])
+    name = StringField('Name', [validators.InputRequired()])
+    date = DateField('Date', [validators.InputRequired()])
+    priority = RadioField('Priority', coerce=int,
+                          choices=[(-1, 'unimportant'),
+                                   (0, 'standard'),
+                                   (1, 'important')])
 
