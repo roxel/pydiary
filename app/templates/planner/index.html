@@ -1,4 +1,5 @@
 {% extends "layout/base.html" %}
+{% import 'planner/macros.html' as macros %}
 {% block title %}Planner{% endblock %}
 
 {% block content %}
@@ -8,11 +9,11 @@
     {% if tasks %}
             {% for t in tasks %}
                 {% if t.priority==1 %}
-                <li><strong>{{ t.name }}</strong> ({{ t.date }})</li>
+                <li><strong>{{ macros.task_text_with_href(t) }}</strong> ({{ t.date }})</li>
                 {% elif t.priority==-1 %}
-                <li>{{ t.name }}  ({{ t.date }})</li>
+                <li><i>{{ macros.task_text_with_href(t) }}</i> ({{ t.date }})</li>
                 {% else %}
-                <li><strong><em>{{ t.name }}</em></strong> ({{ t.date }})</li>
+                <li>{{ macros.task_text_with_href(t) }}({{ t.date }})</li>
                 {% endif %}
             {% endfor %}
     {% else %}

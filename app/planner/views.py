@@ -3,6 +3,7 @@ from .forms import TaskForm
 from .models import Task
 from sqlalchemy import desc
 from app.database import db_session
+from app.helpers import get_date_from_date_string, RegexConverter
 
 planner = Blueprint('planner', __name__, url_prefix='/planner')
 
@@ -11,6 +12,19 @@ planner = Blueprint('planner', __name__, url_prefix='/planner')
 def show_index():
     tasks = Task.query.order_by(Task.date.desc()).all()
     return render_template("planner/index.html", tasks=tasks)
+
+
+@planner.route('/<regex("[0-9]{4}-[0-9]{2}-[0-9]{2}"):date_string>')
+def show_tasks_by_date(date_string):
+    try:
+        date = get_date_from_date_string(date_string)
+    except ValueError:
+        return render_template("layout/custom_error_page.html", problem="Incorrect date",
+                               message="We can't show tasks from this day because the date requested is incorrect.")
+    tasks = Task.query.filter(Task.date == date).all()
+    print(tasks)
+    print(date)
+    return render_template("planner/index.html", tasks=tasks, date_string=date_string)
 
 
 @planner.route('/add', methods=['GET', 'POST'])
@@ -29,7 +43,7 @@ def add_task():
                                submit_string="Add")
 
 
-@planner.route('/edit/<task_id>', methods=['GET', 'POST'])
+@planner.route('/edit/<int:task_id>', methods=['GET', 'POST'])
 def edit_task(task_id=None):
     if not task_id:
         return redirect(url_for('planner.show_index'))
@@ -42,5 +56,16 @@ def edit_task(task_id=None):
                 db_session.commit()
         else:
             form = TaskForm(obj=task)
-        return render_template('planner/form.html', form=form, submit_string="Edit")
+        return render_template('planner/form.html', form=form, submit_string="Edit", task_id=task_id)
     return abort(404)
+
+
+@planner.route('/delete/<int:task_id>', methods=['POST'])
+def delete_task(task_id):
+    task = Task.query.filter(Task.id == task_id).first()
+    if task:
+        db_session.delete(task)
+        db_session.commit()
+        return redirect(url_for('planner.show_index'))
+    else:
+        abort(404)

@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 from app.database import db_session, init_db
 from flask import Flask, render_template, redirect
+from app.helpers import RegexConverter
 
 from .planner import planner
 
 BLUEPRINTS = (
     planner,
 )
+
+
+def add_custom_routing_converters(app):
+    app.url_map.converters['regex'] = RegexConverter
 
 
 def register_blueprints(app):
@@ -35,9 +40,9 @@ def configure_db(app):
     init_db()
 
 
-
 def create_app():
     app = Flask(__name__)
+    add_custom_routing_converters(app)
     register_blueprints(app)
     configure_general(app)
     configure_errors(app)
