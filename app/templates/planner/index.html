@@ -3,19 +3,19 @@
 {% block title %}Planner{% endblock %}
 
 {% block content %}
-    <h1>Tasks</h1>
-    <p>This is planner page</p>
+    <h1 class="index">Tasks</h1>
+    <p>This are all your tasks</p>
     <ul>
     {% if tasks %}
-            {% for t in tasks %}
-                {% if t.priority==1 %}
-                <li><strong>{{ macros.task_text_with_href(t) }}</strong> ({{ t.date }})</li>
-                {% elif t.priority==-1 %}
-                <li><i>{{ macros.task_text_with_href(t) }}</i> ({{ t.date }})</li>
-                {% else %}
-                <li>{{ macros.task_text_with_href(t) }}({{ t.date }})</li>
-                {% endif %}
-            {% endfor %}
+        {% for t in tasks %}
+            {% if t.priority==1 %}
+            <li><strong>{{ macros.task_text_with_href(t) }}</strong> ({{ t.date }})</li>
+            {% elif t.priority==-1 %}
+            <li><i>{{ macros.task_text_with_href(t) }}</i> ({{ t.date }})</li>
+            {% else %}
+            <li>{{ macros.task_text_with_href(t) }}({{ t.date }})</li>
+            {% endif %}
+        {% endfor %}
     {% else %}
             <li>no tasks to show</li>
     {% endif %}

@@ -59,7 +59,7 @@ ul.nav {
   line-height: 1.6em;
 }
 
-#content h1 {
+#content h1.index {
   font-weight: 700;
   text-transform: uppercase;
 }

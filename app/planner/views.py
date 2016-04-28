@@ -3,7 +3,7 @@ from .forms import TaskForm
 from .models import Task
 from sqlalchemy import desc
 from app.database import db_session
-from app.helpers import get_date_from_date_string, RegexConverter
+from app.helpers import get_date_from_date_string, RegexConverter, redirect_url
 
 planner = Blueprint('planner', __name__, url_prefix='/planner')
 
@@ -22,13 +22,12 @@ def show_tasks_by_date(date_string):
         return render_template("layout/custom_error_page.html", problem="Incorrect date",
                                message="We can't show tasks from this day because the date requested is incorrect.")
     tasks = Task.query.filter(Task.date == date).all()
-    print(tasks)
-    print(date)
-    return render_template("planner/index.html", tasks=tasks, date_string=date_string)
+    return render_template("planner/date_index.html", tasks=tasks, date_string=date_string)
 
 
 @planner.route('/add', methods=['GET', 'POST'])
-def add_task():
+@planner.route('/<regex("[0-9]{4}-[0-9]{2}-[0-9]{2}"):date_string>/add', methods=['GET', 'POST'])
+def add_task(date_string=None):
     form = TaskForm(request.form)
     if request.method == "POST" and form.validate():
         task = Task(name=form.name.data,
@@ -36,8 +35,11 @@ def add_task():
                     priority=form.priority.data)
         db_session.add(task)
         db_session.commit()
+        # return redirect(redirect_url())
         return redirect(url_for('planner.show_index'))
     else:
+        if date_string:
+            form.date.data = get_date_from_date_string(date_string)
         return render_template('planner/form.html',
                                form=form,
                                submit_string="Add")
@@ -54,9 +56,10 @@ def edit_task(task_id=None):
             if request.method == 'POST' and form.validate():
                 form.populate_obj(task)
                 db_session.commit()
+            return redirect(url_for('planner.show_index'))
         else:
             form = TaskForm(obj=task)
-        return render_template('planner/form.html', form=form, submit_string="Edit", task_id=task_id)
+        return render_template('planner/form.html', form=form, submit_string="Save", task_id=task_id)
     return abort(404)
 
 

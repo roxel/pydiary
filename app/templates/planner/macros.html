@@ -1,13 +1,21 @@
-{% macro task_text_with_href(task) -%}
-    <a href="{{ url_for('planner.edit_task', task_id=task.id) }}"> {{ task.name }} </a>
+{% macro task_list(tasks, no_tasks_message) -%}
+    <ul>
+    {% if tasks %}
+        {% for t in tasks %}
+            {% if t.priority==1 %}
+            <li><strong>{{ task_text_with_href(t) }}</strong> ({{ t.date }})</li>
+            {% elif t.priority==-1 %}
+            <li><i>{{ task_text_with_href(t) }}</i> ({{ t.date }})</li>
+            {% else %}
+            <li>{{ task_text_with_href(t) }}({{ t.date }})</li>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <li>{{ no_tasks_message }} </li>
+    {% endif %}
+    </ul>
 {%- endmacro %}
 
-{% macro field_errors(field) -%}
-    {% if field.errors %}
-        <ul class="errors">
-            {% for error in field.errors %}
-                <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+{% macro task_text_with_href(task) -%}
+    <a href="{{ url_for('planner.edit_task', task_id=task.id) }}"> {{ task.name }} </a>
 {%- endmacro %}

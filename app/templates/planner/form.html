@@ -1,52 +1,19 @@
 {% extends "planner/index.html" %}
-{% import 'planner/macros.html' as macros %}
+{% import 'layout/macros.html' as form_macros %}
 
 {% block title %}Planner - {{ submit_string }} task {% endblock %}
 
 {% block content %}
     <h1>Tasks</h1>
     <form method="POST" action="" class="form-horizontal">
-        <div class="form-group">
-            {{ form.name.label(class="col-sm-2 control-label") }}
-            <div class="col-sm-10">
-                {{ form.name(class="form-control") }}
-                {{ macros.field_errors(form.name) }}
-            </div>
-        </div>
-        <div class="form-group">
-            {{ form.date.label(class="col-sm-2 control-label") }}
-            <div class="col-sm-10">
-                {{ form.date(class="form-control") }}
-                {{ macros.field_errors(form.date) }}
-            </div>
-        </div>
-        <div class="form-group">
-            {{ form.priority.label(class="col-sm-2 control-label") }}
-            <div class="col-sm-10">
-                {% for value, label, _ in form.priority.iter_choices() %}
-                    <div class="radio">
-                        <label>
-                            {% if loop.first %}
-                                <input type="radio" name="{{ form.priority.id }}"
-                                   id="{{ form.priority.id }}" class="radio-inline"
-                                   value="{{ value }}" checked="">
-                            {% else %}
-                                <input type="radio" name="{{ form.priority.id }}"
-                                   id="{{ form.priority.id }}" class="radio-inline"
-                                   value="{{ value }}">
-                            {% endif %}
-                            {{ label }}
-                        </label>
-                    </div>
-                {% endfor %}
-            </div>
-            {{ macros.field_errors(form.priority) }}
-        </div>
+        {{ form_macros.render_text_field(form.name) }}
+        {{ form_macros.render_date_picker_field(form.date) }}
+        {{ form_macros.render_radio_buttons_field(form.priority) }}
         <p><input type="submit" class="btn btn-primary" value="{{ submit_string }} task">
     </form>
     {% if task_id %}
         <form method="POST" action="{{ url_for('planner.delete_task', task_id=task_id) }}">
-          <button class="btn btn-danger" type="submit">Delete task</button>
+          <button class="btn btn-danger" type="submit">Delete</button>
         </form>
     {% endif %}
 {% endblock %}

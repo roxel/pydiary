@@ -1,0 +1,54 @@
+{% macro render_text_field(field) -%}
+    <div class="form-group">
+        {{ field.label(class="col-sm-2 control-label") }}
+        <div class="col-sm-10">
+            {{ field(class="form-control") }}
+            {{ field_errors(field) }}
+        </div>
+    </div>
+{%- endmacro %}
+
+{% macro render_date_picker_field(field) -%}
+    <div class="form-group">
+        {{ field.label(class="col-sm-2 control-label") }}
+        <div class="col-sm-10">
+            {{ field(class="form-control") }}
+            {{ field_errors(field) }}
+        </div>
+    </div>
+{%- endmacro %}
+
+{% macro render_radio_buttons_field(field) -%}
+    <div class="form-group">
+        {{ field.label(class="col-sm-2 control-label") }}
+        <div class="col-sm-10">
+            {% for value, label, checked in field.iter_choices() %}
+                <div class="radio">
+                    <label>
+                        {% if checked %}
+                            <input type="radio" name="{{ field.id }}"
+                               id="{{ field.id }}" value="{{ value }}" checked="">
+                        {% else %}
+                            <input type="radio" name="{{ field.id }}"
+                               id="{{ field.id }}" value="{{ value }}">
+                        {% endif %}
+                        {{ label }}
+                    </label>
+                </div>
+            {% endfor %}
+        </div>
+        {{ field_errors(field) }}
+    </div>
+{%- endmacro %}
+
+
+
+{% macro field_errors(field) -%}
+    {% if field.errors %}
+        <ul class="errors">
+            {% for error in field.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{%- endmacro %}
