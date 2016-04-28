@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from app.database import db_session, init_db
 from flask import Flask, render_template, redirect
 from app.helpers import RegexConverter
 
@@ -33,22 +32,20 @@ def configure_errors(app):
 
 
 def configure_db(app):
+    from app.database import db, db_session, init_db
+    init_db(app)
+
     @app.teardown_appcontext
     def shutdown_session(exception=None):
         db_session.remove()
 
-    init_db()
 
-
-def create_app():
+def create_app(config_object):
     app = Flask(__name__)
     add_custom_routing_converters(app)
     register_blueprints(app)
     configure_general(app)
     configure_errors(app)
+    app.config.from_object(config_object)
     configure_db(app)
-    app.config.from_object('config')
     return app
-
-
-app = create_app()

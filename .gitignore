@@ -145,6 +145,3 @@ target/
 #Ipython Notebook
 /sqlite.db
 .ipynb_checkpoints
-
-
-config.py

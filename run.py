@@ -1,5 +1,4 @@
-from app import app
-from config import *
+from app import create_app
 
-app.secret_key = SECRET_KEY
-app.run(host='0.0.0.0', port=8080, debug=DEBUG)
+app = create_app('config.DevelopmentConfig')
+app.run(host='0.0.0.0', port=8080)

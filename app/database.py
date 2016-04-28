@@ -1,18 +1,14 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from flask_sqlalchemy import SQLAlchemy
 
-from config import DATABASE_ADDRESS
-
-engine = create_engine(DATABASE_ADDRESS, convert_unicode=True)
-db_session = scoped_session(sessionmaker(autocommit=False,
-                                         autoflush=False,
-                                         bind=engine))
-
+db = SQLAlchemy()
+db_session = db.session
 Base = declarative_base()
-Base.query = db_session.query_property()
 
 
-def init_db():
-    Base.metadata.create_all(bind=engine)
+def init_db(app):
+    db.init_app(app)
+    with app.app_context():
+        Base.metadata.create_all(bind=db.engine)
+    Base.query = db_session.query_property()
 
