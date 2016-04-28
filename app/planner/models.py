@@ -12,10 +12,10 @@ class Task(Base):
     priority = Column(Integer)
     date_created = Column(DateTime)
 
-    def __init__(self, name, date, priority=0):
+    def __init__(self, name, date, done=False, priority=0):
         self.name = name
         self.date = date
-        self.done = False
+        self.done = done
         self.priority = priority
         self.date_created = datetime.utcnow()
 

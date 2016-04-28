@@ -8,6 +8,7 @@
     <form method="POST" action="" class="form-horizontal">
         {{ form_macros.render_text_field(form.name) }}
         {{ form_macros.render_date_picker_field(form.date) }}
+        {{ form_macros.render_boolean_field(form.done) }}
         {{ form_macros.render_radio_buttons_field(form.priority) }}
         <p><input type="submit" class="btn btn-primary" value="{{ submit_string }} task">
     </form>
