@@ -1,4 +1,4 @@
-.PHONY: install
+.PHONY: install test
 
 all: install run
 
@@ -13,3 +13,6 @@ run:
 
 install:
 	pip install -r requirements.txt
+
+test:
+	python -m unittest discover
