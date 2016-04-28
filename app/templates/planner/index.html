@@ -1,24 +1,11 @@
 {% extends "layout/base.html" %}
 {% import 'planner/macros.html' as macros %}
+{% import 'layout/macros.html' as form_macros %}
 {% block title %}Planner{% endblock %}
 
 {% block content %}
     <h1 class="index">Tasks</h1>
-    <p>This are all your tasks</p>
-    <ul>
-    {% if tasks %}
-        {% for t in tasks %}
-            {% if t.priority==1 %}
-            <li><strong>{{ macros.task_text_with_href(t) }}</strong> ({{ t.date }})</li>
-            {% elif t.priority==-1 %}
-            <li><i>{{ macros.task_text_with_href(t) }}</i> ({{ t.date }})</li>
-            {% else %}
-            <li>{{ macros.task_text_with_href(t) }}({{ t.date }})</li>
-            {% endif %}
-        {% endfor %}
-    {% else %}
-            <li>no tasks to show</li>
-    {% endif %}
-    </ul>
-    <a class="btn btn-default" href="{{ url_for('planner.add_task') }}" role="button">Add task</a>
+    <p>These are all your tasks</p>
+    {{ macros.task_list(tasks, "no tasks to show", show_date=True) }}
+    <p><a class="btn btn-primary" href="{{ url_for('planner.add_task') }}" role="button">Add task</a></p>
 {% endblock %}

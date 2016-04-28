@@ -1,13 +1,13 @@
-{% macro task_list(tasks, no_tasks_message) -%}
+{% macro task_list(tasks, no_tasks_message, show_date) -%}
     <ul>
     {% if tasks %}
         {% for t in tasks %}
             {% if t.priority==1 %}
-            <li><strong>{{ task_text_with_href(t) }}</strong> ({{ t.date }})</li>
+            <li><strong>{{ task_text_with_href(t) }}</strong> <small>{{ '(' + t.date.strftime('%Y-%m-%d') + ')'  if show_date }}</small> </li>
             {% elif t.priority==-1 %}
-            <li><i>{{ task_text_with_href(t) }}</i> ({{ t.date }})</li>
+            <li><i>{{ task_text_with_href(t) }}</i> <small>{{ '(' + t.date.strftime('%Y-%m-%d') + ')'  if show_date }}</small> </li>
             {% else %}
-            <li>{{ task_text_with_href(t) }}({{ t.date }})</li>
+            <li>{{ task_text_with_href(t) }} <small>{{ '(' + t.date.strftime('%Y-%m-%d') + ')'  if show_date }}</small> </li>
             {% endif %}
         {% endfor %}
     {% else %}

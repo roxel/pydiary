@@ -52,7 +52,7 @@ ul.nav {
  *
  */
 
-#content p {
+#content p, #content li {
   font-family: 'Lora', serif;
   font-weight: 400;
   font-size: 1.25em;

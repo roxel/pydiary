@@ -14,8 +14,11 @@ def show_index():
     return render_template("planner/index.html", tasks=tasks)
 
 
-@planner.route('/<regex("[0-9]{4}-[0-9]{2}-[0-9]{2}"):date_string>')
-def show_tasks_by_date(date_string):
+@planner.route('/date')
+@planner.route('/date/<regex("[0-9]{4}-[0-9]{2}-[0-9]{2}"):date_string>')
+def show_tasks_by_date(date_string=None):
+    if not date_string:
+        date_string = request.args['date']
     try:
         date = get_date_from_date_string(date_string)
     except ValueError:
@@ -26,8 +29,7 @@ def show_tasks_by_date(date_string):
 
 
 @planner.route('/add', methods=['GET', 'POST'])
-@planner.route('/<regex("[0-9]{4}-[0-9]{2}-[0-9]{2}"):date_string>/add', methods=['GET', 'POST'])
-def add_task(date_string=None):
+def add_task():
     form = TaskForm(request.form)
     if request.method == "POST" and form.validate():
         task = Task(name=form.name.data,
@@ -35,11 +37,25 @@ def add_task(date_string=None):
                     priority=form.priority.data)
         db_session.add(task)
         db_session.commit()
-        # return redirect(redirect_url())
         return redirect(url_for('planner.show_index'))
     else:
-        if date_string:
-            form.date.data = get_date_from_date_string(date_string)
+        return render_template('planner/form.html',
+                               form=form,
+                               submit_string="Add")
+
+
+@planner.route('/date/<regex("[0-9]{4}-[0-9]{2}-[0-9]{2}"):date_string>/add', methods=['GET', 'POST'])
+def add_task_by_date(date_string):
+    form = TaskForm(request.form)
+    if request.method == "POST" and form.validate():
+        task = Task(name=form.name.data,
+                    date=form.date.data,
+                    priority=form.priority.data)
+        db_session.add(task)
+        db_session.commit()
+        return redirect(url_for('planner.show_tasks_by_date', date_string=date_string))
+    else:
+        form.date.data = get_date_from_date_string(date_string)
         return render_template('planner/form.html',
                                form=form,
                                submit_string="Add")
