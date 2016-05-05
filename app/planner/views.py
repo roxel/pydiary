@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, abort
 from .forms import TaskForm
 from .models import Task
 from sqlalchemy import desc
-from app.database import db_session
+from app.database import db
 from app.helpers import get_date_from_date_string, RegexConverter, redirect_url
 
 planner = Blueprint('planner', __name__, url_prefix='/planner')
@@ -35,8 +35,8 @@ def add_task():
         task = Task(name=form.name.data,
                     date=form.date.data,
                     priority=form.priority.data)
-        db_session.add(task)
-        db_session.commit()
+        db.session.add(task)
+        db.session.commit()
         return redirect(url_for('planner.show_index'))
     else:
         return render_template('planner/form.html',
@@ -51,8 +51,8 @@ def add_task_by_date(date_string):
         task = Task(name=form.name.data,
                     date=form.date.data,
                     priority=form.priority.data)
-        db_session.add(task)
-        db_session.commit()
+        db.session.add(task)
+        db.session.commit()
         return redirect(url_for('planner.show_tasks_by_date', date_string=date_string))
     else:
         form.date.data = get_date_from_date_string(date_string)
@@ -71,7 +71,7 @@ def edit_task(task_id=None):
             form = TaskForm(request.form)
             if request.method == 'POST' and form.validate():
                 form.populate_obj(task)
-                db_session.commit()
+                db.session.commit()
             return redirect(url_for('planner.show_index'))
         else:
             form = TaskForm(obj=task)
@@ -83,8 +83,8 @@ def edit_task(task_id=None):
 def delete_task(task_id):
     task = Task.query.filter(Task.id == task_id).first()
     if task:
-        db_session.delete(task)
-        db_session.commit()
+        db.session.delete(task)
+        db.session.commit()
         return redirect(url_for('planner.show_index'))
     else:
         abort(404)

@@ -3,3 +3,5 @@ Flask==0.10.1
 Flask-SQLAlchemy==2.1
 Flask-WTF==0.12
 Flask-Testing==0.4.2
+Flask-Migrate==1.8.0
+

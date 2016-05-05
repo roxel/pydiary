@@ -1,16 +1,16 @@
-from app.database import Base
-from sqlalchemy import Column, Integer, String, DateTime, Boolean, Date
+from app.database import db
+from sqlalchemy import Integer, String, DateTime, Boolean, Date
 from datetime import datetime
 
 
-class Task(Base):
+class Task(db.Model):
     __tablename__ = 'tasks'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(200))
-    date = Column(Date)
-    done = Column(Boolean)
-    priority = Column(Integer)
-    date_created = Column(DateTime)
+    id = db.Column(Integer, primary_key=True)
+    name = db.Column(String(200))
+    date = db.Column(Date)
+    done = db.Column(Boolean)
+    priority = db.Column(Integer)
+    date_created = db.Column(DateTime)
 
     def __init__(self, name, date, done=False, priority=0):
         self.name = name

@@ -1,10 +1,8 @@
 # import Flask
 import unittest
-import os
-from flask.ext.testing import TestCase
+from flask_testing import TestCase
 from app import create_app
-import config
-from app.database import db_session, db, Base
+from app.database import db
 from app.planner.models import Task
 from datetime import datetime
 
@@ -13,12 +11,14 @@ class PlannerTest(TestCase):
 
     def create_app(self):
         app = create_app('config.TestConfig')
+        with app.app_context():
+            db.create_all()
         return app
 
     def tearDown(self):
         db.reflect()
         db.drop_all()
-        db_session.remove()
+        db.session.remove()
 
     def test_server_running(self):
         planner_response = self.client.get("/planner/")
@@ -30,14 +30,14 @@ class PlannerTest(TestCase):
         response = self.client.get("/planner/")
         assert "no tasks to show" in str(response.data)
         task = Task(name="task1", priority=0, done=False, date=datetime.utcnow().date())
-        db_session.add(task)
-        db_session.commit()
-        assert task in db_session
+        db.session.add(task)
+        db.session.commit()
+        assert task in db.session
         response = self.client.get("/planner/")
         assert "no tasks to show" not in str(response.data)
-        task = Task.query.filter(Task.name=="task1").first()
-        db_session.delete(task)
-        db_session.commit()
+        task = Task.query.filter(Task.name == "task1").first()
+        db.session.delete(task)
+        db.session.commit()
         response = self.client.get("/planner/")
         assert "no tasks to show" in str(response.data)
 
