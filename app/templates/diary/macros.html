@@ -1,0 +1,15 @@
+{% macro post_list(posts, no_posts_message) -%}
+    <ul>
+    {% if posts %}
+        {% for p in posts %}
+            <li><i>{{ post_title_with_href(p) }}</i> <small>({{ p.date.strftime('%Y-%m-%d') }})</small> </li>
+        {% endfor %}
+    {% else %}
+        <li>{{ no_posts_message }} </li>
+    {% endif %}
+    </ul>
+{%- endmacro %}
+
+{% macro post_title_with_href(post) -%}
+    <a href="{{ url_for('diary.edit_post', post_id=post.id) }}"> {{ post.title }} </a>
+{%- endmacro %}

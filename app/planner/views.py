@@ -1,8 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, abort
 from .forms import TaskForm
 from .models import Task
-from sqlalchemy import desc
-from app.database import db
+from ..database import db
 from app.helpers import get_date_from_date_string, RegexConverter, redirect_url
 
 planner = Blueprint('planner', __name__, url_prefix='/planner')
@@ -81,7 +80,7 @@ def edit_task(task_id=None):
 
 @planner.route('/delete/<int:task_id>', methods=['POST'])
 def delete_task(task_id):
-    task = Task.query.filter(Task.id == task_id).first()
+    task = Task.query.filter(Task.id == task_id).one()
     if task:
         db.session.delete(task)
         db.session.commit()

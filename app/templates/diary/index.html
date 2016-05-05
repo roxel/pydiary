@@ -1,0 +1,12 @@
+{% extends "layout/base.html" %}
+{% import 'diary/macros.html' as macros %}
+{% import 'layout/macros.html' as form_macros %}
+{% block title %}Diary{% endblock %}
+
+
+{% block content %}
+    <h1 class="index">Posts</h1>
+    <p>These are all your posts</p>
+    {{ macros.post_list(posts, "no posts to show") }}
+    <p><a class="btn btn-primary" href="{{ url_for('diary.add_post') }}" role="button">Add post</a></p>
+{% endblock %}

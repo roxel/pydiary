@@ -3,9 +3,11 @@ from flask import Flask, render_template, redirect
 from app.helpers import RegexConverter
 
 from .planner import planner
+from .diary import diary
 
 BLUEPRINTS = (
     planner,
+    diary
 )
 
 
@@ -21,7 +23,7 @@ def register_blueprints(app):
 def configure_general(app):
     @app.route("/")
     def show_index():
-        return redirect("planner")
+        return render_template('index.html')
 
 
 def configure_errors(app):

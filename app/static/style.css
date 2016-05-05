@@ -36,14 +36,18 @@ img {
   }
 }
 
-ul.nav {
-  text-transport: uppercase;
-  color: red;
+#navbar ul.nav li a {
+    font-size: 1.15em;
 }
 
 .navbar {
     font-family: 'Kaushan Script', cursive;
     background: #fff;
+}
+
+.navbar-brand {
+    font-size: 2em;
+    font-weight: 700;
 }
 
 
