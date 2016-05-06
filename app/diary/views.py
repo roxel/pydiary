@@ -1,7 +1,6 @@
 # coding: utf-8
 
 from flask import Blueprint, render_template, abort, redirect, url_for, request, make_response
-from jinja2 import TemplateNotFound
 from .forms import PostForm
 from .models import Post
 from ..database import db
@@ -63,7 +62,7 @@ def edit_post(post_id=None):
     post = Post.query.get(post_id)
     if post:
         if request.method == 'POST':
-            form = Post(request.form)
+            form = PostForm(request.form)
             if request.method == 'POST' and form.validate():
                 form.populate_obj(post)
                 db.session.commit()
@@ -76,9 +75,9 @@ def edit_post(post_id=None):
 
 @diary.route('/delete/<int:post_id>', methods=['POST'])
 def delete_post(post_id):
-    task = Post.query.filter(Post.id == post_id).one()
-    if task:
-        db.session.delete(task)
+    post = Post.query.filter(Post.id == post_id).one()
+    if post:
+        db.session.delete(post)
         db.session.commit()
         return redirect(url_for('diary.show_posts'))
     else:

@@ -4,10 +4,12 @@ from app.helpers import RegexConverter
 
 from .planner import planner
 from .diary import diary
+from .virtues import virtues
 
 BLUEPRINTS = (
     planner,
-    diary
+    diary,
+    virtues
 )
 
 

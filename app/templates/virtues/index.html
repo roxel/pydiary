@@ -1,0 +1,12 @@
+{% extends "layout/base.html" %}
+{% import 'virtues/macros.html' as macros %}
+{% import 'layout/macros.html' as form_macros %}
+{% block title %}Virtues{% endblock %}
+
+
+{% block content %}
+    <h1 class="index">Virtues</h1>
+    <p>These are all your virtues</p>
+    {{ macros.virtue_list(virtues, "no virtues to show") }}
+    <p><a class="btn btn-default btn-lg" href="{{ url_for('virtues.add_virtue') }}" role="button">Add virtue</a></p>
+{% endblock %}

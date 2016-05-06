@@ -22,3 +22,10 @@ class Task(db.Model):
     def __repr__(self):
         return '<Task {}: {}>'.format(self.id, self.name)
 
+    @staticmethod
+    def from_form_data(form):
+        return Task(name=form.name.data,
+                    date=form.date.data,
+                    done=form.done.data,
+                    priority=form.priority.data)
+

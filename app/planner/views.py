@@ -31,9 +31,7 @@ def show_tasks_by_date(date_string=None):
 def add_task():
     form = TaskForm(request.form)
     if request.method == "POST" and form.validate():
-        task = Task(name=form.name.data,
-                    date=form.date.data,
-                    priority=form.priority.data)
+        task = Task.from_form_data(form)
         db.session.add(task)
         db.session.commit()
         return redirect(url_for('planner.show_index'))

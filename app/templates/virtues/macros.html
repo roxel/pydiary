@@ -1,0 +1,15 @@
+{% macro virtue_list(virtues, no_virtues_message) -%}
+    <ul>
+    {% if virtues %}
+        {% for v in virtues %}
+            <li>{{ virtue_with_href(v) }}</li>
+        {% endfor %}
+    {% else %}
+        <li>{{ no_virtues_message }} </li>
+    {% endif %}
+    </ul>
+{%- endmacro %}
+
+{% macro virtue_with_href(virtue) -%}
+    <a href="{{ url_for('virtues.edit_virtue', virtue_id=virtue.id) }}"> {{ virtue.title }} </a>
+{%- endmacro %}

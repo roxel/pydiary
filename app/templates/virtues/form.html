@@ -1,0 +1,21 @@
+{% extends "planner/index.html" %}
+{% import 'layout/macros.html' as form_macros %}
+
+{% block title %}Diary - {{ submit_string }} post {% endblock %}
+
+{% block content %}
+    <h1>Virtues</h1>
+    <form method="POST" action="" class="form-horizontal">
+        {{ form_macros.render_text_field(form.title) }}
+        {{ form_macros.render_text_area_field(form.subtitle, 4) }}
+        {{ form_macros.render_text_area_field(form.description, 10) }}
+        {{ form_macros.render_text_field(form.icon_path) }}
+        {{ form_macros.render_text_field(form.illustration_path) }}
+        <input type="submit" class="btn btn-default btn-lg pull-right" value="{{ submit_string }} virtue">
+    </form>
+    {% if virtue_id %}
+        <form method="POST" action="{{ url_for('virtues.delete_virtue', virtue_id=virtue_id) }}">
+          <button class="btn btn-default btn-lg pull-right" type="submit">Delete</button>
+        </form>
+    {% endif %}
+{% endblock %}
