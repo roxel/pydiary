@@ -6,6 +6,7 @@
 {% block content %}
     <h1>Tasks</h1>
     <form method="POST" action="" class="form-horizontal">
+        {{ form.csrf_token }}
         {{ form_macros.render_text_field(form.name) }}
         {{ form_macros.render_date_picker_field(form.date) }}
         {{ form_macros.render_boolean_field(form.done) }}

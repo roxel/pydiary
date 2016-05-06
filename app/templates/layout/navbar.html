@@ -11,10 +11,29 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-          <li><a href="/diary">Diary</a></li>
-          <li><a href="/virtues">Virtues</a></li>
-          <li><a href="/planner">Planner</a></li>
-          <li class="navbar-form">{% include 'planner/day_planner_form.html' %}</li>
+        <li><a href="/diary">Diary</a></li>
+        <li><a href="/virtues">Virtues</a></li>
+        <li><a href="/planner">Planner</a></li>
+        <li class="navbar-form">{% include 'planner/day_planner_form.html' %}</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          {% if current_user.is_authenticated %}
+            {{ current_user.first_name[0] }}.{{ current_user.last_name[0] }}.
+          {% else %}
+            Join
+          {% endif %}
+        <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            {% if current_user.is_authenticated %}
+            <li><a href="/logout">Log out</a></li>
+            {% else %}
+            <li><a href="/login">Log in</a></li>
+            <li><a href="/register">Register</a></li>
+            {% endif %}
+          </ul>
+        </li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>

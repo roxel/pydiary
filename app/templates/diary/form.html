@@ -6,6 +6,7 @@
 {% block content %}
     <h1>Posts</h1>
     <form method="POST" action="" class="form-horizontal">
+        {{ form.csrf_token }}
         {{ form_macros.render_text_field(form.title) }}
         {{ form_macros.render_text_area_field(form.content, 12) }}
         {{ form_macros.render_date_picker_field(form.date) }}

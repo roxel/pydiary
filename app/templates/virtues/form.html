@@ -6,6 +6,7 @@
 {% block content %}
     <h1>Virtues</h1>
     <form method="POST" action="" class="form-horizontal">
+        {{ form.csrf_token }}
         {{ form_macros.render_text_field(form.title) }}
         {{ form_macros.render_text_area_field(form.subtitle, 4) }}
         {{ form_macros.render_text_area_field(form.description, 10) }}

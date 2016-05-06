@@ -5,11 +5,13 @@ from app.helpers import RegexConverter
 from .planner import planner
 from .diary import diary
 from .virtues import virtues
+from .auth import auth
 
 BLUEPRINTS = (
     planner,
     diary,
-    virtues
+    virtues,
+    auth
 )
 
 
@@ -43,12 +45,18 @@ def configure_db(app):
         db.session.remove()
 
 
+def configure_extensions(app):
+    from app.extensions import init_extensions
+    init_extensions(app)
+
+
 def create_app(config_object):
     app = Flask(__name__)
     app.config.from_object(config_object)
     add_custom_routing_converters(app)
     register_blueprints(app)
     configure_db(app)
+    configure_extensions(app)
     configure_general(app)
     configure_errors(app)
 

@@ -4,4 +4,5 @@ Flask-SQLAlchemy==2.1
 Flask-WTF==0.12
 Flask-Testing==0.4.2
 Flask-Migrate==1.8.0
-
+Flask-Bcrypt==0.7.1
+Flask-Security==1.7.5
