@@ -19,6 +19,7 @@ def register():
                     password=form.password.data)
         db.session.add(user)
         db.session.commit()
+        login_user(user)
         return redirect(url_for('show_index'))
     return render_template('auth/register.html', form=form)
 
