@@ -1,5 +1,6 @@
 from app.database import db
 from sqlalchemy import Integer, String, DateTime, Boolean, Date
+from sqlalchemy.ext.hybrid import hybrid_property
 from datetime import datetime
 
 
@@ -29,3 +30,6 @@ class Task(db.Model):
                     done=form.done.data,
                     priority=form.priority.data)
 
+    @hybrid_property
+    def date_time(self):
+        return datetime.combine(self.date, datetime.max.time())
