@@ -28,7 +28,15 @@ To install required flask extensions simply run:
     $ pip install -r requirements.txt
     
 Application uses Flask-Migrate (based on Alembic) to manage database migrations. 
-Itself it does not create any database or tables. You can use following command to let Flask-Migrate do it for you:
+Itself it does not create any database or tables. 
+
+You must manually create database and user or overwrite configuration.
+If you have postgres already installed run:
+
+    $ psql --username=postgres
+    $ postgres=# CREATE DATABASE pydiary;
+
+To create needed tables you can use following command to let Flask-Migrate do it for you:
 
     $ python manage.py db upgrade
     

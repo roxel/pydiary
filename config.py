@@ -10,7 +10,7 @@ class Config(object):
 
 
 class DevelopmentConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + PROJECT_DIR + "sqlite.db"
+    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres@localhost/pydiary'
     DEBUG = True
 
 
