@@ -1,0 +1,36 @@
+{% extends "diary/index.html" %}
+{% import 'layout/macros.html' as form_macros %}
+
+{% block head %}
+    {{ super() }}
+    <style>
+        .post_content { margin-top: 40px; }
+        .post_footer { margin-top: 100px; }
+        .post_content { font-size: 20px; padding-left: 30px; }
+    </style>
+{% endblock %}
+
+{% block title %}Diary - {{ post.title }} {% endblock %}
+
+{% block content %}
+    <div class="row post_heading">
+        <div class="col-md-9">
+        	<h1><span class="handwriting">{{ post.title }}</span> <small>dziennik</small></h1>
+        </div>
+        <div class="col-md-3">
+
+        </div>
+    </div>
+    <div class="row post_content">
+        <div class="col-md-12">
+            {{ post.content }}
+        </div>
+    </div>
+    <div class="row post_footer">
+        <div class="col-md-12">
+            <a href=" {{ url_for('diary.edit_post', post_id=post.id) }}" class="btn btn-default btn-lg pull-right edit_post" role="button">Edit</a>
+        </div>
+    </div>
+
+
+{% endblock %}

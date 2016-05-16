@@ -11,5 +11,5 @@
 {%- endmacro %}
 
 {% macro post_title_with_href(post) -%}
-    <a href="{{ url_for('diary.edit_post', post_id=post.id) }}"> {{ post.title }} </a>
+    <a href="{{ url_for('diary.show_post', post_id=post.id) }}"> {{ post.title }} </a>
 {%- endmacro %}
