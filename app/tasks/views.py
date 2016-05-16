@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, abort
-from flask_login import login_required
+from flask_login import login_required, current_user
 from .forms import TaskForm
 from .models import Task
 from ..database import db
@@ -22,6 +22,7 @@ def add_task():
     form = TaskForm(request.form)
     if request.method == "POST" and form.validate():
         task = Task.from_form_data(form)
+        task.user_id = current_user.id
         db.session.add(task)
         db.session.commit()
         return redirect(url_for('tasks.show_index'))

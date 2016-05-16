@@ -13,6 +13,9 @@ class User(db.Model, UserMixin):
     last_name = db.Column(String(64), nullable=False)
     user_name = db.Column(String(64), nullable=False, unique=True)
     email = db.Column(String(64), nullable=False, unique=True)
+    tasks = db.relationship('Task', backref='user')
+    posts = db.relationship('Post', backref='user')
+    virtues = db.relationship('Virtue', backref='user')
     _password = db.Column(Binary(60))
     date_created = db.Column(DateTime, nullable=False)
 

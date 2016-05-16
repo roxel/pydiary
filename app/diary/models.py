@@ -10,6 +10,7 @@ class Post(db.Model):
     title = db.Column(String(100), nullable=False)
     content = db.Column(Text, nullable=False)
     date = db.Column(Date, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     date_created = db.Column(DateTime, nullable=False)
 
     def __init__(self, title, content, date=None, date_created=None):

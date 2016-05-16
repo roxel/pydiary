@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, abort, redirect, url_for, request,
 from .forms import PostForm
 from .models import Post
 from ..database import db
-from flask_login import login_required
+from flask_login import login_required, current_user
 import markdown
 
 diary = Blueprint('diary', __name__, url_prefix='/diary')
@@ -25,6 +25,7 @@ def add_post():
         post = Post(title=form.title.data,
                     content=form.content.data,
                     date=form.date.data)
+        post.user_id = current_user.id
         db.session.add(post)
         db.session.commit()
         return redirect(url_for('diary.show_posts'))

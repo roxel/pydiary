@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from flask import Blueprint, render_template, abort, redirect, url_for, request, make_response
-from flask_login import login_required
+from flask_login import login_required, current_user
 from .forms import VirtueForm
 from .models import Virtue
 from ..database import db
@@ -26,6 +26,7 @@ def add_virtue():
                         description=form.description.data,
                         icon_path=form.icon_path.data,
                         illustration_path=form.illustration_path.data)
+        virtue.user_id = current_user.id
         db.session.add(virtue)
         db.session.commit()
         return redirect(url_for('virtues.show_virtues'))

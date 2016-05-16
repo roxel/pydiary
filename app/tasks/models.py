@@ -12,6 +12,7 @@ class Task(db.Model):
     done = db.Column(Boolean)
     priority = db.Column(Integer)
     date_created = db.Column(DateTime)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __init__(self, name, date, done=False, priority=0):
         self.name = name
