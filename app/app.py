@@ -6,11 +6,13 @@ from .tasks import tasks
 from .diary import diary
 from .virtues import virtues
 from .auth import auth
+from .planner import planner
 
 BLUEPRINTS = (
     tasks,
     diary,
     virtues,
+    planner,
     auth
 )
 
