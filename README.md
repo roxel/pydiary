@@ -1,4 +1,4 @@
-Planner
+Pydairy
 -------
 Web application for keeping personal diary and self-improvement written with Flask and SQLAlchemy.
 

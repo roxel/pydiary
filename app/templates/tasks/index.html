@@ -1,11 +1,11 @@
 {% extends "layout/base.html" %}
-{% import 'planner/macros.html' as macros %}
+{% import 'tasks/macros.html' as macros %}
 {% import 'layout/macros.html' as form_macros %}
-{% block title %}Planner{% endblock %}
+{% block title %}Tasks{% endblock %}
 
 {% block content %}
     <h1 class="index">Tasks</h1>
     <p>These are all your tasks</p>
     {{ macros.task_list(tasks, "no tasks to show", show_date=True) }}
-    <p><a class="btn btn-default btn-lg" href="{{ url_for('planner.add_task') }}" role="button">Add task</a></p>
+    <p><a class="btn btn-default btn-lg" href="{{ url_for('tasks.add_task') }}" role="button">Add task</a></p>
 {% endblock %}

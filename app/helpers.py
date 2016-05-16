@@ -13,5 +13,5 @@ def get_date_from_date_string(date_string):
     return datetime.strptime(date_string, '%Y-%m-%d').date()
 
 
-def redirect_url(default='planner.show_index'):
+def redirect_url(default='tasks.show_index'):
     return request.args.get('next') or request.referrer or url_for(default)

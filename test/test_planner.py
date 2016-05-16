@@ -5,7 +5,7 @@ from app.database import db
 from datetime import datetime
 
 
-class PlannerTest(TestCase):
+class PydairyTest(TestCase):
 
     def create_app(self):
         app = create_app('config.TestConfig')
@@ -20,23 +20,23 @@ class PlannerTest(TestCase):
         db.session.remove()
 
     def test_server_running(self):
-        planner_response = self.client.get("/")
-        self.assert200(planner_response)
+        pydairy_response = self.client.get("/")
+        self.assert200(pydairy_response)
 
     def test_can_save_tasks(self):
-        from app.planner.models import Task
-        response = self.client.get("/planner/")
+        from app.tasks.models import Task
+        response = self.client.get("/tasks/")
         assert "no tasks to show" in str(response.data)
         task = Task(name="task1", priority=0, done=False, date=datetime.utcnow().date())
         db.session.add(task)
         db.session.commit()
         assert task in db.session
-        response = self.client.get("/planner/")
+        response = self.client.get("/tasks/")
         assert "no tasks to show" not in str(response.data)
         task = Task.query.filter(Task.name == "task1").one()
         db.session.delete(task)
         db.session.commit()
-        response = self.client.get("/planner/")
+        response = self.client.get("/tasks/")
         assert "no tasks to show" in str(response.data)
 
     def test_can_save_posts(self):

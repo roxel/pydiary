@@ -18,5 +18,5 @@ class TaskListApi(Resource):
     def get(self):
         return Task.query.all()
 
-api.add_resource(TaskListApi, '/api/1.0/planner/')
+api.add_resource(TaskListApi, '/api/1.0/tasks/')
 

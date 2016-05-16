@@ -17,5 +17,5 @@
 {%- endmacro %}
 
 {% macro task_text_with_href(task) -%}
-    <a href="{{ url_for('planner.edit_task', task_id=task.id) }}"> {{ task.name }} </a>
+    <a href="{{ url_for('tasks.edit_task', task_id=task.id) }}"> {{ task.name }} </a>
 {%- endmacro %}

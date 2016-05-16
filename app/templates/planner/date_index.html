@@ -1,9 +1,0 @@
-{% extends "layout/base.html" %}
-{% import 'planner/macros.html' as macros %}
-{% block title %}Planner {{ date_string }}{% endblock %}
-
-{% block content %}
-    <h1>Tasks for {{ date_string }}</h1>
-    {{ macros.task_list(tasks, "you haven't added any tasks for this day yet", show_date=False) }}
-    <a class="btn btn-default" href="{{ url_for('planner.add_task_by_date', date_string=date_string) }}" role="button">Add task</a>
-{% endblock %}

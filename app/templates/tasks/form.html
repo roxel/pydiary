@@ -1,7 +1,7 @@
-{% extends "planner/index.html" %}
+{% extends "tasks/index.html" %}
 {% import 'layout/macros.html' as form_macros %}
 
-{% block title %}Planner - {{ submit_string }} task {% endblock %}
+{% block title %}Tasks - {{ submit_string }} task {% endblock %}
 
 {% block content %}
     <h1>Tasks</h1>
@@ -14,7 +14,7 @@
         <input type="submit" class="btn btn-default btn-lg pull-right" value="{{ submit_string }} task">
     </form>
     {% if task_id %}
-        <form method="POST" action="{{ url_for('planner.delete_task', task_id=task_id) }}">
+        <form method="POST" action="{{ url_for('tasks.delete_task', task_id=task_id) }}">
           <button class="btn btn-default btn-lg pull-right" type="submit">Delete</button>
         </form>
     {% endif %}

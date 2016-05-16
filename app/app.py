@@ -2,13 +2,13 @@
 from flask import Flask, render_template, redirect
 from app.helpers import RegexConverter
 
-from .planner import planner
+from .tasks import tasks
 from .diary import diary
 from .virtues import virtues
 from .auth import auth
 
 BLUEPRINTS = (
-    planner,
+    tasks,
     diary,
     virtues,
     auth
