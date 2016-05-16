@@ -1,7 +1,7 @@
 from datetime import datetime
 from app.database import db
 from flask_login import UserMixin
-from sqlalchemy import String, DateTime, Integer
+from sqlalchemy import String, DateTime, Integer, Binary
 from sqlalchemy.ext.hybrid import hybrid_property
 from ..extensions import bcrypt
 
@@ -13,7 +13,7 @@ class User(db.Model, UserMixin):
     last_name = db.Column(String(64), nullable=False)
     user_name = db.Column(String(64), nullable=False, unique=True)
     email = db.Column(String(64), nullable=False, unique=True)
-    _password = db.Column(String(128))
+    _password = db.Column(Binary(60))
     date_created = db.Column(DateTime, nullable=False)
 
     def __init__(self, first_name, last_name, user_name, email, password):
@@ -33,7 +33,7 @@ class User(db.Model, UserMixin):
 
     @password.setter
     def _set_password(self, plaintext):
-        self._password = bcrypt.generate_password_hash(plaintext)
+        self._password = bcrypt.generate_password_hash(plaintext.encode('utf-8'))
 
     def is_correct_password(self, plaintext):
         return bcrypt.check_password_hash(self._password, plaintext)

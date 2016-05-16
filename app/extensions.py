@@ -14,7 +14,7 @@ def init_extensions(app):
 
     # flask-login
     login_manager.init_app(app)
-    login_manager.login_view = "sign_in"
+    login_manager.login_view = "auth.login"
 
     # api
     api.init_app(app)

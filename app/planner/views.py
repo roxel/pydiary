@@ -1,4 +1,5 @@
 from flask import Blueprint, request, render_template, redirect, url_for
+from flask_login import login_required
 from app.helpers import get_date_from_date_string
 from ..tasks.models import Task
 from ..tasks.forms import TaskForm
@@ -10,6 +11,7 @@ planner = Blueprint('planner', __name__, url_prefix='/planner')
 
 @planner.route('/date')
 @planner.route('/date/<regex("[0-9]{4}-[0-9]{2}-[0-9]{2}"):date_string>')
+@login_required
 def show_tasks_by_date(date_string=None):
     if not date_string:
         date_string = request.args['date']
@@ -23,6 +25,7 @@ def show_tasks_by_date(date_string=None):
 
 
 @planner.route('/date/<regex("[0-9]{4}-[0-9]{2}-[0-9]{2}"):date_string>/add', methods=['GET', 'POST'])
+@login_required
 def add_task_by_date(date_string):
     form = TaskForm(request.form)
     if request.method == "POST" and form.validate():

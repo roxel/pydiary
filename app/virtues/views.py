@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from flask import Blueprint, render_template, abort, redirect, url_for, request, make_response
+from flask_login import login_required
 from .forms import VirtueForm
 from .models import Virtue
 from ..database import db
@@ -9,12 +10,14 @@ virtues = Blueprint('virtues', __name__, url_prefix='/virtues')
 
 
 @virtues.route('/')
+@login_required
 def show_virtues():
     virtues = Virtue.query.all()
     return render_template("virtues/index.html", virtues=virtues)
 
 
 @virtues.route('/add', methods=['GET', 'POST'])
+@login_required
 def add_virtue():
     form = VirtueForm(request.form)
     if request.method == "POST" and form.validate():
@@ -33,6 +36,7 @@ def add_virtue():
 
 
 @virtues.route('/show/<virtue_id>', methods=['GET'])
+@login_required
 def show_virtue(virtue_id=None):
     if not virtue_id:
         return redirect(url_for('virtues.show_virtues'))
@@ -43,6 +47,7 @@ def show_virtue(virtue_id=None):
 
 
 @virtues.route('/edit/<int:virtue_id>', methods=['GET', 'POST'])
+@login_required
 def edit_virtue(virtue_id=None):
     if not virtue_id:
         return redirect(url_for('virtues.show_virtues'))
@@ -61,6 +66,7 @@ def edit_virtue(virtue_id=None):
 
 
 @virtues.route('/delete/<int:virtue_id>', methods=['POST'])
+@login_required
 def delete_virtue(virtue_id):
     virtue = Virtue.query.filter(Virtue.id == virtue_id).one()
     if virtue:

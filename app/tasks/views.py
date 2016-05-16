@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, abort
+from flask_login import login_required
 from .forms import TaskForm
 from .models import Task
 from ..database import db
@@ -9,12 +10,14 @@ tasks = Blueprint('tasks', __name__, url_prefix='/tasks')
 
 
 @tasks.route('/')
+@login_required
 def show_index():
     tasks = Task.query.order_by(Task.date.desc()).all()
     return render_template("tasks/index.html", tasks=tasks)
 
 
 @tasks.route('/add', methods=['GET', 'POST'])
+@login_required
 def add_task():
     form = TaskForm(request.form)
     if request.method == "POST" and form.validate():
@@ -29,6 +32,7 @@ def add_task():
 
 
 @tasks.route('/edit/<int:task_id>', methods=['GET', 'POST'])
+@login_required
 def edit_task(task_id=None):
     if not task_id:
         return redirect(url_for('tasks.show_index'))
@@ -47,6 +51,7 @@ def edit_task(task_id=None):
 
 
 @tasks.route('/delete/<int:task_id>', methods=['POST'])
+@login_required
 def delete_task(task_id):
     task = Task.query.filter(Task.id == task_id).one()
     if task:

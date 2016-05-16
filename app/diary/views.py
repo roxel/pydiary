@@ -4,18 +4,21 @@ from flask import Blueprint, render_template, abort, redirect, url_for, request,
 from .forms import PostForm
 from .models import Post
 from ..database import db
+from flask_login import login_required
 import markdown
 
 diary = Blueprint('diary', __name__, url_prefix='/diary')
 
 
 @diary.route('/')
+@login_required
 def show_posts():
     posts = Post.query.order_by(Post.date.desc()).all()
     return render_template("diary/index.html", posts=posts)
 
 
 @diary.route('/add', methods=['GET', 'POST'])
+@login_required
 def add_post():
     form = PostForm(request.form)
     if request.method == "POST" and form.validate():
@@ -32,6 +35,7 @@ def add_post():
 
 
 @diary.route('/show/<post_id>', methods=['GET'])
+@login_required
 def show_post(post_id=None):
     if not post_id:
         return redirect(url_for('diary.show_posts'))
@@ -43,6 +47,7 @@ def show_post(post_id=None):
 
 
 @diary.route('/download/<post_id>', methods=['GET'])
+@login_required
 def download_post(post_id=None):
     if not post_id:
         return redirect(url_for('diary.show_posts'))
@@ -58,6 +63,7 @@ def download_post(post_id=None):
 
 
 @diary.route('/edit/<int:post_id>', methods=['GET', 'POST'])
+@login_required
 def edit_post(post_id=None):
     if not post_id:
         return redirect(url_for('diary.show_posts'))
@@ -76,6 +82,7 @@ def edit_post(post_id=None):
 
 
 @diary.route('/delete/<int:post_id>', methods=['POST'])
+@login_required
 def delete_post(post_id):
     post = Post.query.filter(Post.id == post_id).one()
     if post:
