@@ -1,9 +1,10 @@
 # coding: utf-8
 
-from flask import Blueprint, render_template, abort, redirect, url_for, request, make_response
+from flask import Blueprint, render_template, abort, redirect, url_for, request, make_response, Markup
 from .forms import PostForm
 from .models import Post
 from ..database import db
+import markdown
 
 diary = Blueprint('diary', __name__, url_prefix='/diary')
 
@@ -36,6 +37,7 @@ def show_post(post_id=None):
         return redirect(url_for('diary.show_posts'))
     post = Post.query.get(post_id)
     if post:
+        post.content = Markup(markdown.markdown(post.content))
         return render_template('diary/show.html', post=post)
     return abort(404)
 
@@ -66,7 +68,7 @@ def edit_post(post_id=None):
             if request.method == 'POST' and form.validate():
                 form.populate_obj(post)
                 db.session.commit()
-            return redirect(url_for('diary.show_posts'))
+            return redirect(url_for('diary.show_post', post_id=post_id))
         else:
             form = PostForm(obj=post)
         return render_template('diary/form.html', form=form, submit_string="Save", post_id=post_id)
