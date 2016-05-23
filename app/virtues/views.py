@@ -54,6 +54,8 @@ def edit_virtue(virtue_id=None):
         return redirect(url_for('virtues.show_virtues'))
     virtue = Virtue.query.get(virtue_id)
     if virtue:
+        if virtue.user_id != current_user.id:
+            return abort(403)
         if request.method == 'POST':
             form = VirtueForm(request.form)
             if request.method == 'POST' and form.validate():
@@ -71,9 +73,12 @@ def edit_virtue(virtue_id=None):
 def delete_virtue(virtue_id):
     virtue = Virtue.query.filter(Virtue.id == virtue_id).one()
     if virtue:
-        db.session.delete(virtue)
-        db.session.commit()
-        return redirect(url_for('virtues.show_virtues'))
+        if virtue.user_id == current_user.id:
+            db.session.delete(virtue)
+            db.session.commit()
+            return redirect(url_for('virtues.show_virtues'))
+        else:
+            return abort(403)
     else:
         abort(404)
 

@@ -33,7 +33,7 @@ def login():
             login_user(user)
             return redirect(url_for('show_index'))
         else:
-            return redirect(url_for('auth/login.html'))
+            return redirect(url_for('auth.login'))
     return render_template('auth/login.html', form=form)
 
 

@@ -13,7 +13,7 @@ diary = Blueprint('diary', __name__, url_prefix='/diary')
 @diary.route('/')
 @login_required
 def show_posts():
-    posts = Post.query.order_by(Post.date.desc()).all()
+    posts = Post.query.filter(Post.user_id == current_user.id).order_by(Post.date.desc())
     return render_template("diary/index.html", posts=posts)
 
 
@@ -42,8 +42,11 @@ def show_post(post_id=None):
         return redirect(url_for('diary.show_posts'))
     post = Post.query.get(post_id)
     if post:
-        post.content = Markup(markdown.markdown(post.content))
-        return render_template('diary/show.html', post=post)
+        if post.user_id == current_user.id:
+            post.content = Markup(markdown.markdown(post.content))
+            return render_template('diary/show.html', post=post)
+        else:
+            return abort(403)
     return abort(404)
 
 
@@ -54,12 +57,13 @@ def download_post(post_id=None):
         return redirect(url_for('diary.show_posts'))
     post = Post.query.get(post_id)
     if post:
-        filename, content = post.get_file()
-        print(content)
-        print(filename)
-        response = make_response(content)
-        response.headers["Content-Disposition"] = "attachment; filename=%s.txt" % filename
-        return response
+        if post.user_id == current_user.id:
+            filename, content = post.get_file()
+            response = make_response(content)
+            response.headers["Content-Disposition"] = "attachment; filename=%s.txt" % filename
+            return response
+        else:
+            return abort(403)
     return abort(404)
 
 
@@ -70,6 +74,8 @@ def edit_post(post_id=None):
         return redirect(url_for('diary.show_posts'))
     post = Post.query.get(post_id)
     if post:
+        if post.user_id != current_user.id:
+            return abort(403)
         if request.method == 'POST':
             form = PostForm(request.form)
             if request.method == 'POST' and form.validate():
@@ -85,13 +91,15 @@ def edit_post(post_id=None):
 @diary.route('/delete/<int:post_id>', methods=['POST'])
 @login_required
 def delete_post(post_id):
-    post = Post.query.filter(Post.id == post_id).one()
+    post = Post.query.get(post_id)
     if post:
-        db.session.delete(post)
-        db.session.commit()
-        return redirect(url_for('diary.show_posts'))
-    else:
-        abort(404)
+        if post.user_id == current_user.id:
+            db.session.delete(post)
+            db.session.commit()
+            return redirect(url_for('diary.show_posts'))
+        else:
+            return abort(403)
+    return abort(404)
 
 
 

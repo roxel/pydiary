@@ -37,6 +37,10 @@ def configure_errors(app):
     def page_not_found(error):
         return render_template("layout/page_not_found.html"), 404
 
+    @app.errorhandler(403)
+    def page_forbidden(error):
+        return render_template("layout/page_not_found.html"), 403
+
 
 def configure_db(app):
     from app.database import db, init_db

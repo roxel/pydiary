@@ -12,7 +12,7 @@ tasks = Blueprint('tasks', __name__, url_prefix='/tasks')
 @tasks.route('/')
 @login_required
 def show_index():
-    tasks = Task.query.order_by(Task.date.desc()).all()
+    tasks = Task.query.filter(Task.user_id == current_user.id).order_by(Task.date.desc())
     return render_template("tasks/index.html", tasks=tasks)
 
 
@@ -39,6 +39,8 @@ def edit_task(task_id=None):
         return redirect(url_for('tasks.show_index'))
     task = Task.query.get(task_id)
     if task:
+        if task.user_id != current_user.id:
+            return abort(403)
         if request.method == 'POST':
             form = TaskForm(request.form)
             if request.method == 'POST' and form.validate():
@@ -54,10 +56,12 @@ def edit_task(task_id=None):
 @tasks.route('/delete/<int:task_id>', methods=['POST'])
 @login_required
 def delete_task(task_id):
-    task = Task.query.filter(Task.id == task_id).one()
+    task = Task.query.get(task_id)
     if task:
-        db.session.delete(task)
-        db.session.commit()
-        return redirect(url_for('tasks.show_index'))
-    else:
-        abort(404)
+        if task.user_id == current_user.id:
+            db.session.delete(task)
+            db.session.commit()
+            return redirect(url_for('tasks.show_index'))
+        else:
+            return abort(403)
+    return abort(404)
