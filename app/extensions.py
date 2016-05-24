@@ -24,8 +24,9 @@ def init_extensions(app):
     # csrf protection
     csrf_protect.init_app(app)
     from .tasks.api import TaskApi, TaskListApi
-    csrf_protect.exempt(TaskApi)
-    csrf_protect.exempt(TaskListApi)
+    from .tasks import tasks
+    csrf_protect.exempt(tasks)
+    # csrf_protect.exempt(TaskListApi)
 
 
 @login_manager.user_loader

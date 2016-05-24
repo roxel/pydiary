@@ -6,7 +6,7 @@ from .models import Task
 from .forms import TaskForm
 
 
-task_json_field = {
+task_get_json_field = {
     "id": fields.Integer,
     "name": fields.String,
     "date_time": fields.DateTime,
@@ -16,37 +16,45 @@ task_json_field = {
     "user": fields.String
 }
 
+task_post_json_field = {
+    "name": fields.String,
+    "date_time": fields.DateTime,
+    "done": fields.Boolean,
+    "priority": fields.Integer
+}
 
-class TaskApi(Resource):
 
-    @marshal_with(task_json_field)
-    def get(self, user_id):
-        return Task.query.get(user_id)
-
-
+@api.resource('/api/1.0/tasks/', endpoint='tasks')
 class TaskListApi(Resource):
 
-    @marshal_with(task_json_field)
+    @marshal_with(task_get_json_field)
     def get(self):
         print("processing get")
         return Task.query.all()
 
-    @marshal_with(task_json_field)
-    @csrf_protect.exempt
+    @marshal_with(task_post_json_field)
     def post(self):
         print("processing post")
-        form = TaskForm(data=request.get_json())
-        print(form.date)
-        print(form.name)
-        print(form.priority)
-        if form.validate():
-            task = Task.from_form_data(form)
-            db.session.add(task)
-            db.session.commit()
-        else:
-            return abort(400)
+        # json_data = request.get_json()
+        # form = TaskForm(data=json_data)
+        # print(form.date)
+        # print(form.name)
+        # print(form.priority)
+        # if form.validate():
+        #     task = Task.from_form_data(form)
+        #     db.session.add(task)
+        #     db.session.commit()
+        # else:
+        #     return abort(400)
         return 200
 
-api.add_resource(TaskListApi, '/api/1.0/tasks/')
-api.add_resource(TaskApi, '/api/1.0/tasks/<int:user_id>')
+
+@api.resource('/api/1.0/tasks/<int:user_id>')
+class TaskApi(Resource):
+
+    @marshal_with(task_get_json_field)
+    def get(self, user_id):
+        return Task.query.get(user_id)
+
+
 

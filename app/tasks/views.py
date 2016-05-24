@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, abort
 from flask_login import login_required, current_user
 from .forms import TaskForm
 from .models import Task
-from .api import *
+from .api import TaskApi, TaskListApi
 from ..database import db
 from app.helpers import get_date_from_date_string, RegexConverter
 
