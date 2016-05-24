@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template
 from app.helpers import RegexConverter
 
 from .tasks import tasks

@@ -1,5 +1,5 @@
 from flask_wtf import Form
-from wtforms import StringField, DateField, RadioField, BooleanField, validators
+from wtforms import StringField, DateField, RadioField, BooleanField
 from wtforms.validators import InputRequired
 
 
@@ -12,4 +12,3 @@ class TaskForm(Form):
                                    (0, 'standard'),
                                    (1, 'important')],
                           validators=[InputRequired()])
-

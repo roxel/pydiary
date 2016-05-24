@@ -28,7 +28,7 @@ class User(db.Model, UserMixin):
         self.date_created = datetime.utcnow()
 
     def __repr__(self):
-        return '<User {}>'.format(self.user_name)
+        return '{} ({} {})'.format(self.user_name, self.first_name, self.last_name)
 
     @hybrid_property
     def password(self):
