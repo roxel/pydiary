@@ -7,12 +7,12 @@ from datetime import datetime
 class Task(db.Model):
     __tablename__ = 'tasks'
     id = db.Column(Integer, primary_key=True)
-    name = db.Column(String(200))
-    date = db.Column(Date)
+    name = db.Column(String(200), nullable=False)
+    date = db.Column(Date, nullable=False)
     done = db.Column(Boolean)
-    priority = db.Column(Integer)
-    date_created = db.Column(DateTime)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    priority = db.Column(Integer, nullable=False)
+    date_created = db.Column(DateTime, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
 
     def __init__(self, name, date, done=False, priority=0):
         self.name = name

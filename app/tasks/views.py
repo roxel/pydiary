@@ -2,9 +2,8 @@ from flask import Blueprint, render_template, request, redirect, url_for, abort
 from flask_login import login_required, current_user
 from .forms import TaskForm
 from .models import Task
-from .api import TaskApi, TaskListApi
 from ..database import db
-from app.helpers import get_date_from_date_string, RegexConverter
+from ..extensions import csrf_protect
 
 
 tasks = Blueprint('tasks', __name__, url_prefix='/tasks')
@@ -54,6 +53,7 @@ def edit_task(task_id=None):
     return abort(404)
 
 
+@csrf_protect.exempt
 @tasks.route('/delete/<int:task_id>', methods=['POST'])
 @login_required
 def delete_task(task_id):

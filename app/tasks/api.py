@@ -1,4 +1,4 @@
-from flask import request, abort
+from flask import request, abort, make_response, jsonify
 from flask_restful import Resource, fields, marshal_with
 from ..extensions import api, csrf_protect
 from ..database import db
@@ -18,7 +18,7 @@ task_get_json_field = {
 
 task_post_json_field = {
     "name": fields.String,
-    "date_time": fields.DateTime,
+    "date": fields.DateTime,
     "done": fields.Boolean,
     "priority": fields.Integer
 }
@@ -35,18 +35,18 @@ class TaskListApi(Resource):
     @marshal_with(task_post_json_field)
     def post(self):
         print("processing post")
-        # json_data = request.get_json()
-        # form = TaskForm(data=json_data)
-        # print(form.date)
-        # print(form.name)
-        # print(form.priority)
-        # if form.validate():
-        #     task = Task.from_form_data(form)
-        #     db.session.add(task)
-        #     db.session.commit()
-        # else:
-        #     return abort(400)
-        return 200
+        json_data = request.get_json()
+        form = TaskForm(csrf_enabled=False, data=json_data)
+        if form.validate():
+            task = Task.from_form_data(form)
+            db.session.add(task)
+            db.session.commit()
+        else:
+            invalid_fields = ""
+            for field in form:
+                if not field.validate(form):
+                    invalid_fields += field.name
+            abort(400)
 
 
 @api.resource('/api/1.0/tasks/<int:user_id>')

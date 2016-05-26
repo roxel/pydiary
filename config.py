@@ -12,6 +12,7 @@ class Config(object):
 class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'postgresql://postgres@localhost/pydiary'
     DEBUG = True
+    WTF_CSRF_ENABLED = True
 
 
 class TestConfig(Config):

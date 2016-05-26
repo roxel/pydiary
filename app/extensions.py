@@ -5,8 +5,8 @@ from flask_wtf import CsrfProtect
 
 login_manager = LoginManager()
 bcrypt = Bcrypt()
-api = Api()
 csrf_protect = CsrfProtect()
+api = Api()
 
 
 def init_extensions(app):
@@ -18,15 +18,12 @@ def init_extensions(app):
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"
 
-    # api
-    api.init_app(app)
-
     # csrf protection
     csrf_protect.init_app(app)
-    from .tasks.api import TaskApi, TaskListApi
-    from .tasks import tasks
-    csrf_protect.exempt(tasks)
-    # csrf_protect.exempt(TaskListApi)
+
+    # api
+    api.decorators = [csrf_protect.exempt]
+    api.init_app(app)
 
 
 @login_manager.user_loader
