@@ -1,10 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for, abort
 from flask_login import login_required, current_user
-from .forms import TaskForm
-from .models import Task
 from ..database import db
 from ..extensions import csrf_protect
-
+from .forms import TaskForm
+from .models import Task
 
 tasks = Blueprint('tasks', __name__, url_prefix='/tasks')
 

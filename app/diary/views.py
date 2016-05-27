@@ -1,11 +1,13 @@
 # coding: utf-8
 
 from flask import Blueprint, render_template, abort, redirect, url_for, request, make_response, Markup
-from .forms import PostForm
-from .models import Post
-from ..database import db
 from flask_login import login_required, current_user
 import markdown
+from ..database import db
+from ..extensions import csrf_protect
+from .forms import PostForm
+from .models import Post
+
 
 diary = Blueprint('diary', __name__, url_prefix='/diary')
 
@@ -88,6 +90,7 @@ def edit_post(post_id=None):
     return abort(404)
 
 
+@csrf_protect.exempt
 @diary.route('/delete/<int:post_id>', methods=['POST'])
 @login_required
 def delete_post(post_id):

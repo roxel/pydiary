@@ -2,9 +2,10 @@
 
 from flask import Blueprint, render_template, abort, redirect, url_for, request, make_response
 from flask_login import login_required, current_user
+from ..database import db
+from ..extensions import csrf_protect
 from .forms import VirtueForm
 from .models import Virtue
-from ..database import db
 
 virtues = Blueprint('virtues', __name__, url_prefix='/virtues')
 
@@ -47,6 +48,7 @@ def show_virtue(virtue_id=None):
     return abort(404)
 
 
+@csrf_protect.exempt
 @virtues.route('/edit/<int:virtue_id>', methods=['GET', 'POST'])
 @login_required
 def edit_virtue(virtue_id=None):

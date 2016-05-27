@@ -1,6 +1,6 @@
-from flask import request, abort, make_response, jsonify
+from flask import request, abort
 from flask_restful import Resource, fields, marshal_with
-from ..extensions import api, csrf_protect
+from ..extensions import api
 from ..database import db
 from .models import Task
 from .forms import TaskForm
@@ -15,14 +15,6 @@ task_get_json_field = {
     "date_created": fields.DateTime,
     "user": fields.String
 }
-
-task_post_json_field = {
-    "name": fields.String,
-    "date_time": fields.DateTime,
-    "done": fields.Boolean,
-    "priority": fields.Integer
-}
-
 
 @api.resource('/api/1.0/tasks/', endpoint='tasks')
 class TaskListApi(Resource):
