@@ -4,7 +4,7 @@ from flask import url_for
 from flask_script import Manager, Command
 from flask_migrate import Migrate, MigrateCommand
 
-app = create_app('config.DevelopmentConfig')
+app = create_app('config.ProductionConfig')
 migrate = Migrate(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)

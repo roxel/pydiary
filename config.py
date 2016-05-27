@@ -1,3 +1,4 @@
+import sys
 import os
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))+os.path.sep
@@ -22,6 +23,6 @@ class TestConfig(Config):
 
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', DevelopmentConfig.SQLALCHEMY_DATABASE_URI)
     DEBUG = False
 

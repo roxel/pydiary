@@ -1,1 +1,1 @@
-from .app import create_app
+from .pydiary_app import create_app

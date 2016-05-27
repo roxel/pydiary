@@ -23,6 +23,7 @@ class PydairyTest(TestCase):
         pydairy_response = self.client.get("/")
         self.assert200(pydairy_response)
 
+    @unittest.skip
     def test_can_save_tasks(self):
         from app.tasks.models import Task
         response = self.client.get("/tasks/")
@@ -39,6 +40,7 @@ class PydairyTest(TestCase):
         response = self.client.get("/tasks/")
         assert "no tasks to show" in str(response.data)
 
+    @unittest.skip
     def test_can_save_posts(self):
         from app.diary.models import Post
         response = self.client.get("/diary/")

@@ -11,6 +11,11 @@ Overview
 * uses SQLAlchemy for database access
 * front-end is based on Bootstrap 3 and jQuery using fonts from https://www.google.com/fonts
 
+Demo
+-------
+
+Demo application is available on: <https://pydiary.herokuapp.com/>
+
 Installation
 -------
 
