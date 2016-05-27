@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from flask import Blueprint, render_template, abort, redirect, url_for, request, make_response
+from flask import Blueprint, render_template, abort, redirect, url_for, request, flash
 from flask_login import login_required, current_user
 from ..database import db
 from ..extensions import csrf_protect
@@ -30,6 +30,7 @@ def add_virtue():
         virtue.user_id = current_user.id
         db.session.add(virtue)
         db.session.commit()
+        flash("You have successfully added new virtue.")
         return redirect(url_for('virtues.show_virtues'))
     else:
         return render_template('virtues/form.html',
@@ -60,9 +61,10 @@ def edit_virtue(virtue_id=None):
             return abort(403)
         if request.method == 'POST':
             form = VirtueForm(request.form)
-            if request.method == 'POST' and form.validate():
+            if form.validate():
                 form.populate_obj(virtue)
                 db.session.commit()
+                flash("You have successfully edited the virtues.")
             return redirect(url_for('virtues.show_virtues'))
         else:
             form = VirtueForm(obj=virtue)
@@ -78,6 +80,7 @@ def delete_virtue(virtue_id):
         if virtue.user_id == current_user.id:
             db.session.delete(virtue)
             db.session.commit()
+            flash("You have successfully deleted the virtue.")
             return redirect(url_for('virtues.show_virtues'))
         else:
             return abort(403)

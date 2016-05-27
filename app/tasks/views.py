@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, abort
+from flask import Blueprint, render_template, request, redirect, url_for, abort, flash
 from flask_login import login_required, current_user
 from ..database import db
 from ..extensions import csrf_protect
@@ -42,9 +42,10 @@ def edit_task(task_id=None):
             return abort(403)
         if request.method == 'POST':
             form = TaskForm(request.form)
-            if request.method == 'POST' and form.validate():
+            if form.validate():
                 form.populate_obj(task)
                 db.session.commit()
+            flash("You have successfully edited the task.")
             return redirect(url_for('tasks.show_index'))
         else:
             form = TaskForm(obj=task)
@@ -61,6 +62,7 @@ def delete_task(task_id):
         if task.user_id == current_user.id:
             db.session.delete(task)
             db.session.commit()
+            flash("You have successfully deleted the task.")
             return redirect(url_for('tasks.show_index'))
         else:
             return abort(403)

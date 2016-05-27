@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from flask import Blueprint, render_template, abort, redirect, url_for, request, make_response, Markup
+from flask import Blueprint, render_template, abort, redirect, url_for, request, make_response, Markup, flash
 from flask_login import login_required, current_user
 import markdown
 from ..database import db
@@ -30,6 +30,7 @@ def add_post():
         post.user_id = current_user.id
         db.session.add(post)
         db.session.commit()
+        flash("You have successfully added new post.")
         return redirect(url_for('diary.show_posts'))
     else:
         return render_template('diary/form.html',
@@ -80,9 +81,10 @@ def edit_post(post_id=None):
             return abort(403)
         if request.method == 'POST':
             form = PostForm(request.form)
-            if request.method == 'POST' and form.validate():
+            if form.validate():
                 form.populate_obj(post)
                 db.session.commit()
+                flash("You have successfully edited the post.")
             return redirect(url_for('diary.show_post', post_id=post_id))
         else:
             form = PostForm(obj=post)
@@ -99,6 +101,7 @@ def delete_post(post_id):
         if post.user_id == current_user.id:
             db.session.delete(post)
             db.session.commit()
+            flash("You have successfully deleted the post.")
             return redirect(url_for('diary.show_posts'))
         else:
             return abort(403)

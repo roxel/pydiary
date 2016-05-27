@@ -64,5 +64,5 @@ Authors
 * Piotr Roksela
 * Hubert Zajma
 
-Current version: 1.01
+Current version: 1.02
 -------

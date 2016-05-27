@@ -54,6 +54,17 @@ img {
     font-weight: 700;
 }
 
+/*
+ * Alerts
+ *
+ */
+
+
+.alert-info {
+    color: #636363;
+    background-color: #fff;
+    border-color: #E1E1E1;
+}
 
 /*
  * Content
