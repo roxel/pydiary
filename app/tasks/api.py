@@ -18,7 +18,7 @@ task_get_json_field = {
 
 task_post_json_field = {
     "name": fields.String,
-    "date": fields.DateTime,
+    "date_time": fields.DateTime,
     "done": fields.Boolean,
     "priority": fields.Integer
 }
@@ -29,18 +29,16 @@ class TaskListApi(Resource):
 
     @marshal_with(task_get_json_field)
     def get(self):
-        print("processing get")
         return Task.query.all()
 
-    @marshal_with(task_post_json_field)
     def post(self):
-        print("processing post")
         json_data = request.get_json()
         form = TaskForm(csrf_enabled=False, data=json_data)
         if form.validate():
             task = Task.from_form_data(form)
             db.session.add(task)
             db.session.commit()
+            return task.id
         else:
             invalid_fields = ""
             for field in form:
@@ -49,12 +47,31 @@ class TaskListApi(Resource):
             abort(400)
 
 
-@api.resource('/api/1.0/tasks/<int:user_id>')
+@api.resource('/api/1.0/tasks/<int:task_id>')
 class TaskApi(Resource):
 
     @marshal_with(task_get_json_field)
-    def get(self, user_id):
-        return Task.query.get(user_id)
+    def get(self, task_id):
+        return Task.query.get(task_id)
 
+    def put(self, task_id):
+        task = Task.query.get(task_id)
+        if task:
+            json_data = request.get_json()
+            form = TaskForm(csrf_enabled=False, data=json_data)
+            if form.validate():
+                form.populate_obj(task)
+                db.session.commit()
+                return task.id
+            else:
+                abort(400)
+        abort(404)
 
+    def delete(self, task_id):
+        task = Task.query.get(task_id)
+        if task:
+            db.session.delete(task)
+            db.session.commit()
+            return task.id
+        abort(404)
 
