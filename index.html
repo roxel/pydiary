@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Pydiary by roxel</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Pydiary</h1>
+        <p>Web application for keeping personal diary and self-improvement written with Flask and SQLAlchemy.</p>
+
+        <p class="view"><a href="https://github.com/roxel/pydiary">View the Project on GitHub <small>roxel/pydiary</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/roxel/pydiary/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/roxel/pydiary/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/roxel/pydiary">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h2>
+<a id="overview" class="anchor" href="#overview" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Overview</h2>
+
+<p>Pydiary is written in Python 3 and based on web microframework <a href="http://flask.pocoo.org/">Flask</a>. 
+Demo of the application is available on: <a href="https://pydiary.herokuapp.com/">https://pydiary.herokuapp.com/</a>.</p>
+
+<p>Complete installation instructions can be found in a readme file inside the repository <a href="https://github.com/roxel/pydiary">https://github.com/roxel/pydiary</a> or in the bottom of this page. Installation is very quick and simple and requires only: Python 3 (any stable version), pip install tool and Postgres database.</p>
+
+<h2>
+<a id="functionality" class="anchor" href="#functionality" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Functionality</h2>
+
+<h2>
+<a id="tools-and-packages-used" class="anchor" href="#tools-and-packages-used" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tools and packages used</h2>
+
+<h2>
+<a id="authors" class="anchor" href="#authors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors</h2>
+
+<ul>
+<li>Piotr Roksela</li>
+<li>Hubert Zajma</li>
+</ul>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Using virtualenv is recommended. To setup application locally:</p>
+
+<div class="highlight highlight-source-shell"><pre>git clone https://github.com/roxel/pydiary.git
+pip install virtualenv
+virtualenv venv
+<span class="pl-c1">source</span> venv/bin/activate</pre></div>
+
+<p>To install required flask extensions simply run:</p>
+
+<pre><code>$ pip install -r requirements.txt
+</code></pre>
+
+<p>Application uses Flask-Migrate (based on Alembic) to manage database migrations. 
+Itself it does not create any database or tables. </p>
+
+<p>You must manually create database and user or overwrite configuration.
+If you have postgres already installed run:</p>
+
+<pre><code>$ psql --username=postgres
+$ postgres=# CREATE DATABASE pydiary;
+</code></pre>
+
+<p>To create needed tables you can use following command to let Flask-Migrate do it for you:</p>
+
+<pre><code>$ python manage.py db upgrade
+</code></pre>
+
+<p>To start application:</p>
+
+<pre><code>$ python run.py
+</code></pre>
+
+<p>The application will be available on <code>http://127.0.0.1:8080/</code>.
+You can use different port by setting environment variable <code>PYDIARY_PORT</code>, e.g.:</p>
+
+<pre><code>$ export PYDIARY_PORT=8333
+</code></pre>
+
+<h2>
+<a id="testing" class="anchor" href="#testing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Testing</h2>
+
+<p>All tests are located inside <code>/test</code> directory and can be run by:</p>
+
+<pre><code>$ python -m unittest discover
+</code></pre>
+
+<p>Remember to install all extensions first. There is no need to create database prior to testing as it is created in TestCase create_app method. </p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/roxel">roxel</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
