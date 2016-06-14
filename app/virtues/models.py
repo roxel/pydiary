@@ -1,4 +1,6 @@
+import markdown
 from app.database import db
+from markupsafe import Markup
 from sqlalchemy import Integer, String, Date, DateTime, Text
 
 
@@ -25,6 +27,14 @@ class Virtue(db.Model):
 
     def is_chosen_by_user(self, user_id, timestamp):
         return True
+
+    @property
+    def formatted_description(self):
+        return Markup(markdown.markdown(self.description))
+
+    @property
+    def formatted_subtitle(self):
+        return Markup(markdown.markdown(self.subtitle))
 
 
 class Commitment(db.Model):

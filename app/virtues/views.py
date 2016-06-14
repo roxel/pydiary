@@ -46,8 +46,6 @@ def show_virtue(virtue_id=None):
         return redirect(url_for('virtues.show_virtues'))
     virtue = Virtue.query.get(virtue_id)
     if virtue:
-        virtue.subtitle = Markup(markdown.markdown(virtue.subtitle))
-        virtue.description = Markup(markdown.markdown(virtue.description))
         return render_template('virtues/show.html', virtue=virtue)
     return abort(404)
 

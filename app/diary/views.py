@@ -46,7 +46,6 @@ def show_post(post_id=None):
     post = Post.query.get(post_id)
     if post:
         if post.user_id == current_user.id:
-            post.content = Markup(markdown.markdown(post.content))
             return render_template('diary/show.html', post=post)
         else:
             return abort(403)

@@ -1,5 +1,8 @@
 from datetime import datetime
+
+import markdown
 from app.database import db
+from markupsafe import Markup
 from sqlalchemy import Integer, String, Date, DateTime, Text
 from sqlalchemy.ext.hybrid import hybrid_property
 
@@ -35,6 +38,10 @@ class Post(db.Model):
         return Post(title=form.title.data,
                     content=form.content.data,
                     date=form.date.data)
+
+    @property
+    def formatted_content(self):
+        return Markup(markdown.markdown(self.content))
 
     @hybrid_property
     def date_time(self):
