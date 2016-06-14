@@ -1,13 +1,19 @@
 {% macro virtue_list(virtues, no_virtues_message) -%}
-    <ul>
-    {% if virtues %}
-        {% for v in virtues %}
-            <li>{{ virtue_with_href(v) }}</li>
-        {% endfor %}
-    {% else %}
-        <li>{{ no_virtues_message }} </li>
-    {% endif %}
-    </ul>
+    {% for three in virtues | batch(3) %}
+        <div class="row">
+            {% for virtue in three %}
+                <div class="person col-sm-4">
+                    <a href="{{ url_for('virtues.show_virtue', virtue_id=virtue['id']) }}">
+                        <img class="portrait img-responsive"
+                             src="{{ url_for('static', filename='img/virtues/' + virtue['icon_path']) }}">
+                    </a>
+                    <p>{{ virtue_with_href(virtue) }}</p>
+                </div>
+            {% else %}
+                <p><em>{{ no_virtues_message }}</em></p>
+            {% endfor %}
+        </div>
+    {% endfor %}
 {%- endmacro %}
 
 {% macro virtue_with_href(virtue) -%}
