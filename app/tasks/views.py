@@ -4,6 +4,7 @@ from ..database import db
 from ..extensions import csrf_protect
 from .forms import TaskForm
 from .models import Task
+from ..helpers import get_date_from_date_string
 
 tasks = Blueprint('tasks', __name__, url_prefix='/tasks')
 
@@ -26,6 +27,8 @@ def add_task():
         db.session.commit()
         return redirect(url_for('tasks.show_index'))
     else:
+        if 'date' in request.args.keys():
+            form.date.data = get_date_from_date_string(request.args['date'])
         return render_template('tasks/form.html',
                                form=form,
                                submit_string="Add")

@@ -2,8 +2,8 @@
 
 from flask import Blueprint, render_template, abort, redirect, url_for, request, make_response, Markup, flash
 from flask_login import login_required, current_user
-import markdown
 from ..database import db
+from ..helpers import get_date_from_date_string
 from ..extensions import csrf_protect
 from .forms import PostForm
 from .models import Post
@@ -31,8 +31,12 @@ def add_post():
         db.session.add(post)
         db.session.commit()
         flash("You have successfully added new post.")
+        if 'date' in request.args.keys():
+            form.date.data = get_date_from_date_string(request.args['date'])
         return redirect(url_for('diary.show_posts'))
     else:
+        if 'date' in request.args.keys():
+            form.date.data = get_date_from_date_string(request.args['date'])
         return render_template('diary/form.html',
                                form=form,
                                submit_string="Add")
