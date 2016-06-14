@@ -11,5 +11,5 @@
 {%- endmacro %}
 
 {% macro virtue_with_href(virtue) -%}
-    <a href="{{ url_for('virtues.edit_virtue', virtue_id=virtue.id) }}"> {{ virtue.title }} </a>
+    <a href="{{ url_for('virtues.show_virtue', virtue_id=virtue.id) }}"> {{ virtue.title }} </a>
 {%- endmacro %}

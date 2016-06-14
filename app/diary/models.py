@@ -27,12 +27,22 @@ class Post(db.Model):
 
     @staticmethod
     def from_form_data(form):
+        """
+        Creates new Task object from given Flask-WTF Form.
+        :param form: Flask-WTF Form instance
+        :return: new Task object
+        """
         return Post(title=form.title.data,
                     content=form.content.data,
                     date=form.date.data)
 
     @hybrid_property
     def date_time(self):
+        """
+        Creates datetime object from given date field and midnight ending this date
+
+        :return: datetime object equivalent to this date
+        """
         return datetime.combine(self.date, datetime.max.time())
 
 

@@ -17,12 +17,19 @@ post_get_json_field = {
 
 @api.resource('/api/1.0/diary/', endpoint='diary')
 class PostListApi(Resource):
+    """
+    Unparameterized API for listing all Post objects and creating new ones.
+    """
 
     @marshal_with(post_get_json_field)
     def get(self):
         return Post.query.all()
 
     def post(self):
+        """
+
+        :return: ID of newly created Post
+        """
         json_data = request.get_json()
         form = PostForm(csrf_enabled=False, data=json_data)
         if form.validate():

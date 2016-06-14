@@ -3,7 +3,7 @@ from .forms import RegisterForm, LoginForm
 from .models import User
 from ..database import db
 
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, current_user, user_logged_out
 
 auth = Blueprint('auth', __name__)
 
